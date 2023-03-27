@@ -5,12 +5,16 @@ from datetime import datetime, date
 from zhdate import ZhDate
 import sys
 import os
+ 
+ 
 def get_color():
     # 获取随机颜色
     get_colors = lambda n: list(map(lambda i: "#" + "%06x" % random.randint(0, 0xFFFFFF), range(n)))
     color_list = get_colors(100)
     return random.choice(color_list)
- def get_access_token():
+ 
+ 
+def get_access_token():
     # appId
     app_id = config["app_id"]
     # appSecret
@@ -25,7 +29,9 @@ def get_color():
         sys.exit(1)
     # print(access_token)
     return access_token
- def get_weather(region):
+ 
+ 
+def get_weather(region):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                       'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
@@ -53,7 +59,9 @@ def get_color():
     # 风向
     wind_dir = response["now"]["windDir"]
     return weather, temp, wind_dir
- def get_birthday(birthday, year, today):
+ 
+ 
+def get_birthday(birthday, year, today):
     birthday_year = birthday.split("-")[0]
     # 判断是否为农历生日
     if birthday_year[0] == "r":
@@ -92,7 +100,9 @@ def get_color():
         birth_date = year_date
         birth_day = str(birth_date.__sub__(today)).split(" ")[0]
     return birth_day
- def get_ciba():
+ 
+ 
+def get_ciba():
     url = "http://open.iciba.com/dsapi/"
     headers = {
         'Content-Type': 'application/json',
@@ -103,7 +113,9 @@ def get_color():
     note_en = r.json()["content"]
     note_ch = r.json()["note"]
     return note_ch, note_en
- def send_message(to_user, access_token, region_name, weather, temp, wind_dir, note_ch, note_en):
+ 
+ 
+def send_message(to_user, access_token, region_name, weather, temp, wind_dir, note_ch, note_en):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     year = localtime().tm_year
@@ -188,7 +200,9 @@ def get_color():
         print("推送消息成功")
     else:
         print(response)
- if __name__ == "__main__":
+ 
+ 
+if __name__ == "__main__":
     try:
         with open("config.txt", encoding="utf-8") as f:
             config = eval(f.read())
